@@ -6,7 +6,7 @@ import numpy as np
 def draw_cube(size: float, texture_id: int):
     """
         Algoritmo tirado do próprio freeGlut: https://github.com/markkilgard/glut/blob/master/lib/glut/glut_shapes.c#L171
-        sendo que foi adicionado  textura no cubo
+        sendo que foi adicionado textura no cubo
     """
 
     n = [
