@@ -4,7 +4,7 @@ from OpenGL import GL as gl
 def draw_floor(texture_id: int):
     """
         Modelo do chão.
-        Basicamente desenha um quadrado 20x20 com uma textura
+        Desenha um quadrado 20x20 com uma textura
 
         (10,-10)--------------------------(-10,-10)             
             |                             |     

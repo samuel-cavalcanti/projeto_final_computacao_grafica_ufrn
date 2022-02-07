@@ -3,7 +3,11 @@ from camera import Camera
 from OpenGL import GLUT as glut
 from arm_angles import ArmAngles
 
-
+"""
+    Teclas que controlam os ângulos do braço e a câmera.
+    Essa classe foi criada para a ArmAngles não depender do OpenGL para atualizar os ângulos.
+    M-V-C
+"""
 class KeyboardController:
     __arm_angles: ArmAngles
     __cam: Camera

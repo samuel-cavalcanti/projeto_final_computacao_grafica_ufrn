@@ -13,6 +13,7 @@ class ArmAngles:
         self.__elbow_in_degrees = 0
         self.__claw_in_degrees = 0
 
+    #Funções que capturam os valores correspondentes no keyboard controler 
     @property
     def base_in_degrees(self) -> float:
         return self.__base_in_degrees
@@ -32,6 +33,8 @@ class ArmAngles:
     @property
     def bottom_claw_in_degrees(self) -> float:
         return self.__claw_in_degrees
+
+    #Atualiza os ângulos das partes do robô, se estiver dentro dos máximos e mínimos definidos
 
     @base_in_degrees.setter
     def base_in_degrees(self, angle_in_degrees: float) -> float:

@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 from OpenGL import GL as gl
 from OpenGL import GLU as glu
@@ -15,18 +13,18 @@ from arm_angles import ArmAngles
 
 
 """
-Por padrão vamos iniciar
+Por padrão inicia-se
 a janela em 800x600, mas
-podemos redimensiona-la
+é possível redimensiona-la
 durante a aplicação
 """
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
 """
-Para que o caminho até a image
-seja agnóstico de sistema operacional
-usamos a classe Path do python, mas
+Para que o caminho até a imagem
+seja independente do sistema operacional
+usa-se a classe Path do python, mas
 é bom lembrar que esse script deve ser
 executado dentro do diretório projeto_final
 """
@@ -43,14 +41,14 @@ def reshape(width: int,  height: int):
     print(f'width: {width} height: {height}')
 
     """
-        ViewPort é o local da área ser renderizada pelo OpenGL
-        no caso estamos pegando a janela toda
+        ViewPort é o local da área a ser renderizada pelo OpenGL
+        no caso pegou-se a janela toda
     """
     gl.glViewport(0, 0, width, height)
 
     """
-        Criando uma visão em perspectiva para dar uma idea de
-        profundidade no nosso mundo 3D
+        Cria-se uma visão em perspectiva para dar uma idea de
+        profundidade no mundo 3D
     """
     gl.glMatrixMode(gl.GL_PROJECTION)
     gl.glLoadIdentity()
@@ -60,14 +58,14 @@ def reshape(width: int,  height: int):
 
 def opengl_init():
     """
-        É nessa função que coloquei a configuração inicial do OpenGL.
+        É nessa função que foi colocada a configuração inicial do OpenGL.
     """
 
     """
-        Configurado a cor que será usada para limpar a tela como um escurinho
+        Configurando a cor que será usada para limpar a tela antes de desenhar os objetos 
     """
     gl.glClearColor(0.07, 0.13, 0.17, 1.0)
-    """ habilite a profundidade,  ou seja x,y,z"""
+    """ habilita-se a profundidade,  ou seja x,y,z"""
     gl.glEnable(gl.GL_DEPTH_TEST)
 
     """Configurações para habilitar a textura"""
@@ -81,11 +79,11 @@ def opengl_init():
 def window_init():
     """
         Configurações iniciais do gestor de janelas GLUT
-        basicamente coloco a janela para se posicionar na
+        basicamente a janela se posiciona na
         posição:
             x: 400
             y: 400
-        coloco o nome da janela e digo que ela tem profundidade e renderiza em RGBA
+        foi colocado o nome da janela, que ela possui profundidade e que renderiza em RGBA
     """
     glut.glutInit()
     glut.glutInitDisplayMode(
@@ -97,16 +95,16 @@ def window_init():
 
 def load_texture(image_path: Path) -> int:
     """
-        carrega uma textura por uma image em qualquer formato suportado pelo OpenCV. 
+        carrega uma textura através de uma imagem em qualquer formato suportado pelo OpenCV. 
     """
 
     # segundo o OpenCV a imagem está em BGR
     image: np.ndarray = cv2.imread(str(image_path))
 
-    """crio um id de textura
-      digo ao OpenGL para selecionar a textura
-      carrego a textura no formado de imagem
-      configuro os parâmetros da textura
+    """cria-se um id de textura
+      define-se a textura que deve ser selecionada pelo OpenGL 
+      carrega-se a textura no formado de imagem
+      configura-se os parâmetros da textura
 
        """
     texture = gl.glGenTextures(1)
@@ -124,11 +122,10 @@ def load_texture(image_path: Path) -> int:
                     image)
 
     """
-        Basicamente glTexParameteri eu configuro os parâmetros da textura
-        GL_REPEAT, implica que vou repetindo a mesma imagem infinitamente e
+        Em glTexParameteri configura-se os parâmetros da textura;
+        GL_REPEAT, implica que repete-se a mesma imagem infinitamente;
         GL_NEAREST, implica que a cor do pixel mais próxima é que vai ser escolhida
         é mais fácil de visualizar na referência:  https://learnopengl.com/Getting-started/Textures
-
     """
     gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT)
     gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_REPEAT)
@@ -149,13 +146,13 @@ def main():
 
     camera = Camera()
 
-    """instanciado os anglos do braço, por padrão é tudo 0 graus"""
+    """instanciado os ângulos do braço, por padrão é tudo 0 graus"""
     arm_angles = ArmAngles()
     keyboard_controler = KeyboardController(arm_angles, camera)
 
     """
-        Carregando as texturas, no caso estamos utilizando o OpenCV para
-        carrega-las e por conveniências ambas as texturas tem os mesmos parâmetros.
+        Carregando as texturas, utilizou-se o OpenCV para
+        carregá-las e, por conveniência, ambas as texturas têm os mesmos parâmetros.
     """
 
     floor_texture_id = load_texture(FLOOR_IMAGE_PATH)
@@ -164,24 +161,25 @@ def main():
 
     def display():
         """
-            Callback de visualização da  janela glut
-            Basicamente  limbo a tela, posiciono a camera e 
-            desenho:
-                o braço,
-                o chão
+            Callback de visualização da janela glut
+            Basicamente  limpa-se a tela, posiciona-se a camera e 
+            é feito o desenho:
+                o chão,
+                o braço
+                
 
-            digo para o gesto GLUT, para trocar o buffer background para o front (glutSwapBuffers)
-            mando ele chamadar a função display novamente. (glutPostRedisplay)
+            Informa-se ao gestor de janela GLUT, para trocar o buffer background para o front (glutSwapBuffers)
+            chama-se a função display novamente. (glutPostRedisplay)
         """
 
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         gl.glPushMatrix()
 
-        camera.look_at()  # basicamente é a função gluLookAt com as posições e orientações da câmera
+        camera.look_at()  # a função gluLookAt com as posições e orientações da câmera
 
         floor_model.draw_floor(floor_texture_id)
 
-        gl.glTranslatef(-3.0, 0.5, 0.0)
+        gl.glTranslatef(-3.0, 0.5, 0.0) #translada o braço
         arm_model.draw_arm(arm_angles, arm_texture_id)
 
         gl.glPopMatrix()
@@ -189,6 +187,10 @@ def main():
         glut.glutSwapBuffers()
         glut.glutPostRedisplay()
 
+    """
+       normal_keys_handler, special_keys_handler
+       são funções callbacks que são chamadas no momento que uma tecla é pressionada.
+    """
     def normal_keys_handler(key: bytes, x: int, y: int):
         keyboard_controler.key_press(key)
 
@@ -198,14 +200,11 @@ def main():
     """ conjunto de funções do gerenciador de janelas"""
     glut.glutDisplayFunc(display)
     glut.glutReshapeFunc(reshape)
-    """
-       normal_keys_handler, special_keys_handler
-       são funções callbacks que são chamadas no momento que eu pressiono uma tecla.
-    """
+    
     glut.glutKeyboardFunc(normal_keys_handler)
     glut.glutSpecialFunc(special_keys_handler)
 
-    glut.glutMainLoop()  # sequesta a aplicação até fechar a janela.
+    glut.glutMainLoop()  # sequestra a aplicação até fechar a janela.
 
 
 if __name__ == '__main__':
