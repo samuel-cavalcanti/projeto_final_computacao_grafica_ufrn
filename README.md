@@ -2,18 +2,14 @@
 
 simulação de um braço robótico
 
-
-
-
+## Instale as dependências 
+```shell
+pip install -r requirements.txt
+```
 ## Execute os testes !!
 
 ```shell
 python -m unittest discover  -v 
-```
-
-## Instale as dependências 
-```shell
-pip install -r requirements.txt
 ```
 
 ## Observações
